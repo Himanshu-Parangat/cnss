@@ -17,3 +17,11 @@
 
 > Project Proposal: 🌸Reverse Proxy Firewall & Network Suite 🌸
 
+## Welcome
+
+Welcome to the Repository for the **Comprehensive Network Security Suite**. This project aims to develop a firewall using the `Goth` stack, which includes `go-lang`, `tailwind`, and `htmx`.
+
+- **Project Proposal**: Please refer to the [Project Proposal](./docs/project-proposal.md) for a rough idea of what will be built.
+- **Identity**: The project's `name`, `logo`, `banner`, and `development cycle` are still in progress and will be updated here.
+
+&copy; 2025 [cnss](https://github.com/Himanshu-Parangat/cnss). All rights reserved. | [Link to Documentation](./docs/index.md)
