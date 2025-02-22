@@ -1,0 +1,80 @@
+name: Quick Report
+description: "A minimal template for fast and straightforward reports."
+title: "[Quick Report]:"
+labels: ["need triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        > **Note:**
+        > This template is intended for non-developers who need a quick, straightforward way to report issues.  
+        > Developers or those with detailed technical info should use an alternative template.  
+        > 
+        > **key points:**
+        > - **Quick & Simple:** Only the essentials are required.  
+        > - **User-Friendly:** Perfect for non-tech users.  
+        > - **Minimal Steps:** Ensures a fast and easy reporting process.  
+        > - **Initial Triage:** Captures key info for follow-up.  
+        > - **Flexible:** Suitable for any type of issue.  
+
+  - type: markdown
+    attributes:
+      value: |
+
+        **Thank you** for your time!  
+        We appreciate your effort.  
+
+        Please fill out the section below with the **essential details** for your report.  
+
+  - type: dropdown
+    id: heading
+    attributes:
+      label: "Issue Submission"
+      description: "You are about to create an issue for the project. This issue will be publicly visible to developers and users alike. Please double-check your submission to ensure accuracy and that you have not clicked it accidentally."
+      options:
+        - "Yes, I'm aware that this issue will be public"
+        - "I'm aware this will be public, but I'd like to have a private discussion"
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: duplicate-check
+    attributes:
+      label: "Duplicate Check"
+      description: "Before submitting, verify that Somone haven't already reported this issue by checking both open and closed issues."
+      options:
+        - label: "I have reviewed existing issues and confirmed this report is unique."
+          required: true
+
+  - type: textarea
+    id: bullet-details
+    attributes:
+      label: "Issue's Key Points"
+      description: "Summarize the main points or steps related to the issue using bullet points."
+      placeholder: |
+        - First key point
+        - Second key point
+        - Additional details
+
+        - What did you expect to happen?
+        - What actually happened instead?
+        - steps that lead to this?
+
+  - type: dropdown
+    id: work-on-issue
+    attributes:
+      label: "Are you planning to work on this issue?"
+      description: "Let us know if you intend to address this issue yourself."
+      options:
+        - "Yes, I will work on this issue."
+        - "No, I am not able to work on this issue."
+        - "Not sure yet."
+
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Code of Conduct
+      description: By submitting this issue, you agree to follow our [Code of Conduct](https://example.com). 
+      options:
+        - label: I agree to follow this project's Code of Conduct
+          required: true
