@@ -1,7 +1,7 @@
 name: Quick Report
 description: "A minimal template for fast and straightforward reports."
 title: "[Quick Report]:"
-labels: ["need triage"]
+labels: ["needs-triage"]
 body:
   - type: markdown
     attributes:
@@ -29,8 +29,8 @@ body:
   - type: dropdown
     id: heading
     attributes:
-      label: "Issue Submission"
-      description: "You are about to create an issue for the project. This issue will be publicly visible to developers and users alike. Please double-check your submission to ensure accuracy and that you have not clicked it accidentally."
+      label: "Quick Report, Issue Submission"
+      description: "You are about to create an issue report for the project. This issue report will be publicly visible to developers and users alike. Please double-check your submission to ensure accuracy and that you have not clicked it accidentally."
       options:
         - "Yes, I'm aware that this issue will be public"
         - "I'm aware this will be public, but I'd like to have a private discussion"
@@ -41,7 +41,7 @@ body:
     id: duplicate-check
     attributes:
       label: "Duplicate Check"
-      description: "Before submitting, verify that Somone haven't already reported this issue by checking both open and closed issues."
+      description: Before submitting, verify that Somone haven't already reported this issue by checking both "open" AND "closed" issues.
       options:
         - label: "I have reviewed existing issues and confirmed this report is unique."
           required: true
@@ -74,7 +74,7 @@ body:
     id: terms
     attributes:
       label: Code of Conduct
-      description: By submitting this issue, you agree to follow our [Code of Conduct](https://example.com). 
+      description: By submitting this issue, you agree to follow our [Code of Conduct](https://github.com/Himanshu-Parangat/cnss/blob/main/CODE_OF_CONDUCT.md). 
       options:
         - label: I agree to follow this project's Code of Conduct
           required: true
