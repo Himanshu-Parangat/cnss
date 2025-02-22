@@ -56,8 +56,8 @@ body:
   - type: textarea
     id: bullet-details
     attributes:
-      label: "Issue's Key Points"
-      description: "Summarize the main points or steps related to the issue using bullet points."
+      label: "Issue Description"
+      description: "Describe the issue in details. use bullet points where possible. Avoid large text blocks, attach relevant content using the button below."
       placeholder: |
         - First key point
         - Second key point
