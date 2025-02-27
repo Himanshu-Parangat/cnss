@@ -1,0 +1,110 @@
+name: Feature Request
+description: "A template for submitting feature requests, proposals, and improvement suggestions."
+title: "[feature]:"
+labels: ["needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        > **Note:**
+        > - This template is for **feature requests, idea proposals, suggestions, and improvements.**
+        > - Use this template to **propose new features or suggest enhancements** to existing ones.
+
+  - type: markdown
+    attributes:
+      value: |
+
+        **Thank you** for your time! Your effort is greatly appreciated.
+
+        Please fill out the section below with the **essential details** for your report.
+
+  - type: dropdown
+    id: heading
+    attributes:
+      label: "Feature Request, Enhancements or Suggestions Submission:"
+      description: "You are about to create a feature request, suggestions or enhancement proposal for this project. This proposal will be publicly visible to developers and users alike. Please double-check your submission to ensure accuracy and that you have not clicked it accidentally."
+      options:
+        - "Yes, I'm aware that this proposal will be public"
+        - "I'm aware this will be public, but I'd like to have a private discussion"
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: duplicate-check
+    attributes:
+      label: "Duplicate Check:"
+      description: Before submitting, verify that Someone haven't already Proposed similar thing by checking both "open" AND "closed" issues.
+      options:
+        - label: "I have reviewed existing issues and confirmed this proposal is unique."
+          required: false
+
+  - type: input
+    id: request-title
+    attributes:
+      label: "Request Title:"
+      description: "Provide a short and clear title for the request."
+      placeholder: "Brief Request summary"
+    validations:
+      required: true
+
+  - type: textarea
+    id: bullet-details
+    attributes:
+      label: "Request Description:"
+      description: "Describe the request in detail. Use bullet points where possible. Avoid large text blocks, attach relevant content using the button below."
+      placeholder: |
+        - First key point
+        - Second key point
+        - Affected Component
+        - Additional details
+    validations:
+      required: true
+
+  - type: input
+    id: affected-components
+    attributes:
+      label: "Affected Components/Files/Modules:"
+      description: |
+        Please specify the components, files, or modules that will be affected by this  proposal. This helps identify potential conflicts and coordinate with other contributors.
+        > **Examples:**
+        > - `cnss/testing-env/server/main.go`
+        > - `Settings page > Config section`
+        > - `API response from /headers endpoint`
+        > - `Dashboard UI (specifically the button x component)`
+      placeholder: "This will impact functionality related to..."
+    validations:
+      required: false
+
+  - type: textarea
+    id: solution-and-context
+    attributes:
+      label: "Proposed Solution & Additional Context (Optional):"
+      description: |
+        If you have any ideas about how to implement this feature or improvement, please share them here. Also provide any additional context, use cases, or related information. Even if you're not sure, any insights you have might be helpful.
+      placeholder: |
+        **Proposed Solution:**
+        I suspect the feature could be implemented by [your suggested approach] within [area of the code/system].
+
+        **Additional Context:**
+        [e.g., Screenshots, related links, specific use cases]
+    validations:
+      required: false
+
+  - type: dropdown
+    id: work-on-proposal
+    attributes:
+      label: "Are you planning to work on this proposal?"
+      description: "Let us know if you intend to address this proposal yourself."
+      options:
+        - "Yes, I will work on this proposal."
+        - "No, I am not able to work on this proposal."
+        - "Not sure yet."
+
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: "Code of Conduct:"
+      description: By submitting this proposal, you agree to follow our [Code of Conduct](https://github.com/pladise/jod/blob/main/CODE_OF_CONDUCT.md).
+      options:
+        - label: I agree to follow this project's Code of Conduct
+          required: true
