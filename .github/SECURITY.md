@@ -2,6 +2,10 @@
 
 > This living document details the current security policy for the project.
 
+
+> [!IMPORTANT]
+> Thank you for reaching out. Please adhere to the **security policy below** and report any critical issues using the quick link to the [Vulnerability Disclosure Form](https://forms.gle/5mkvFaHuSvRdYqCU8).
+
 ## Table of Contents
 
 - [1. Security Policy Overview](#1-security-policy-overview)
