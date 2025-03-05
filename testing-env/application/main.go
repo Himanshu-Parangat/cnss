@@ -1,14 +1,18 @@
 package main
 
 import (
+	"embed"
 	"encoding/json"
 	"fmt"
+	"html/template"
 	"io"
 	"log"
 	"net/http"
 	"os"
 )
 
+//go:embed components/index.html
+var templateFiles embed.FS
 
 func GetServerAddress()  string{
 	host := os.Getenv("SERVER_HOST_IP")
@@ -69,51 +73,18 @@ func process_json_data(body []byte) map[string]interface{} {
 }
 
 func dashboard(w http.ResponseWriter, resp *http.Request) {
+	tmpl, err := template.ParseFS(templateFiles, "components/index.html")
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
 	data := process_json_data(get_data())
-	fmt.Fprintf(w, `
-		<html>
-		<head>
-			<title>Dashboard</title>
-			<style>
-				body { font-family: Arial, sans-serif; padding: 20px; }
-				table { width: 100%%; border-collapse: collapse; margin-top: 20px; }
-				th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-				th { background-color: #f4f4f4; }
-			</style>
-		</head>
-		<body>
-			<h1>Transaction Dashboard</h1>
-			<table>
-				<tr>
-					<th>UID</th>
-					<th>First Name</th>
-					<th>Last Name</th>
-					<th>Pay Amount</th>
-					<th>Payment Mode</th>
-					<th>Pay Status</th>
-					<th>Date</th>
-					<th>Location</th>
-					<th>Contact</th>
-				</tr>
-				<tr>
-					<td>%s</td>
-					<td>%s</td>
-					<td>%s</td>
-					<td>$%v</td>
-					<td>%s</td>
-					<td>%s</td>
-					<td>%s</td>
-					<td>%s</td>
-					<td>%s</td>
-				</tr>
-			</table>
-		</body>
-		</html>
-	`,
-		data["UID"], data["FirstName"], data["LastName"],
-		data["PayAmount"], data["PaymentMode"], data["PayStatus"],
-		data["DateOfTransaction"], data["Location"], data["Contact"],
-	)
+
+	err = tmpl.Execute(w, data)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+	}
+
 }
 
 func index(w http.ResponseWriter, resp *http.Request) {
