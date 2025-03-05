@@ -78,14 +78,44 @@ func dashboard(w http.ResponseWriter, resp *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	data := process_json_data(get_data())
 
-	err = tmpl.Execute(w, data)
+	err = tmpl.Execute(w, nil)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
 
 }
+
+func entryData(w http.ResponseWriter, resp *http.Request) {
+
+	data := process_json_data(get_data())
+	w.Header().Set("Content-Type", "text/html")
+
+	entry := fmt.Sprintf(`
+		<tr id="new-entry">
+		<td>%s</td>
+		<td>%s</td>
+		<td>%s</td>
+		<td>%.2f</td>
+		<td>%s</td>
+		<td>%s</td>
+		<td>%s</td>
+		<td>%s</td>
+		<td>%s</td>
+		</tr>`,
+		data["UID"],
+		data["FirstName"],
+		data["LastName"],
+		data["PayAmount"],
+		data["PaymentMode"],
+		data["PayStatus"],
+		data["DateOfTransaction"],
+		data["Location"],
+		data["Contact"],
+	)
+	fmt.Fprint(w, entry)
+}
+
 
 func index(w http.ResponseWriter, resp *http.Request) {
 
@@ -123,6 +153,7 @@ func index(w http.ResponseWriter, resp *http.Request) {
 func main() {
 	http.HandleFunc("/", index)
 	http.HandleFunc("/dashboard", dashboard)
+	http.HandleFunc("/htmx/get/entry", entryData)
 
   address := GetApplicationAddress()
 	log.Println("\n\napplication is running on http://"+address)
