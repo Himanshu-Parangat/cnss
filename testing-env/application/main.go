@@ -14,7 +14,7 @@ import (
 //go:embed components/index.html
 var templateFiles embed.FS
 
-func GetServerAddress()  string{
+func GetServerAddress() string {
 	host := os.Getenv("SERVER_HOST_IP")
 	port := os.Getenv("SERVER_PORT")
 
@@ -42,7 +42,6 @@ func GetApplicationAddress() string {
 	return fmt.Sprintf("%s:%s", host, port)
 }
 
-
 func get_data() []byte {
 
 	resp, err := http.Get("http://" + GetServerAddress() + "/api/v1/data")
@@ -62,8 +61,8 @@ func get_data() []byte {
 	return body
 }
 
-func process_json_data(body []byte) map[string]interface{} {
-	var data map[string]interface{}
+func process_json_data(body []byte) map[string]any {
+	var data map[string]any
 	err := json.Unmarshal(body, &data)
 	if err != nil {
 		log.Println("can't process json data", err)
@@ -116,7 +115,6 @@ func entryData(w http.ResponseWriter, resp *http.Request) {
 	fmt.Fprint(w, entry)
 }
 
-
 func index(w http.ResponseWriter, resp *http.Request) {
 
 	message := `🌸🌸 Welcome to the dummy client 🌸🌸
@@ -149,13 +147,12 @@ func index(w http.ResponseWriter, resp *http.Request) {
 	fmt.Fprintf(w, "%v", message)
 }
 
-
 func main() {
 	http.HandleFunc("/", index)
 	http.HandleFunc("/dashboard", dashboard)
 	http.HandleFunc("/htmx/get/entry", entryData)
 
-  address := GetApplicationAddress()
-	log.Println("\n\napplication is running on http://"+address)
+	address := GetApplicationAddress()
+	log.Println("\n\napplication is running on http://" + address)
 	log.Fatal(http.ListenAndServe(address, nil))
 }
