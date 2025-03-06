@@ -93,6 +93,7 @@ func entryData(w http.ResponseWriter, resp *http.Request) {
 
 		entry := fmt.Sprintf(`
 			<tr id="new-entry">
+      <td> <input type="checkbox" hx-on:click="this.closest('tr').remove()"></td>
 			<td>%s</td>
 			<td>%s</td>
 			<td>%s</td>
