@@ -36,5 +36,21 @@
 			<!-- New entry will be added here -->
 		</tbody>
 	</table>
+
+	<script>
+
+		function loadEntries(count = 14) {
+			for (let i = 0; i < count; i++) {
+				setTimeout(() => {
+					htmx.ajax("GET", "/htmx/get/entry", { target: "#transaction-details", swap: "beforeend" });
+				}, i * 100);
+			}
+		}
+
+		document.addEventListener("DOMContentLoaded", () => {
+				loadEntries();
+		});
+	</script>
+
 </body>
 </html>
