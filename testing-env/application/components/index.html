@@ -17,6 +17,7 @@
     <button hx-get="/htmx/get/entry" hx-target="#transaction-details" hx-swap="beforeend">
       Load Transaction
     </button>
+		<button id="load-more">Refresh Transaction</button>
 	<table>
 		<thead>
 			<tr>
@@ -49,6 +50,10 @@
 
 		document.addEventListener("DOMContentLoaded", () => {
 				loadEntries();
+		});
+
+		document.getElementById("load-more").addEventListener("click", () => {
+				loadEntries(7);
 		});
 	</script>
 
