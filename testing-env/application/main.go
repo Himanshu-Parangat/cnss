@@ -88,31 +88,35 @@ func dashboard(w http.ResponseWriter, resp *http.Request) {
 func entryData(w http.ResponseWriter, resp *http.Request) {
 
 	data := process_json_data(get_data())
-	w.Header().Set("Content-Type", "text/html")
+	if data != nil {
+		w.Header().Set("Content-Type", "text/html")
 
-	entry := fmt.Sprintf(`
-		<tr id="new-entry">
-		<td>%s</td>
-		<td>%s</td>
-		<td>%s</td>
-		<td>%.2f</td>
-		<td>%s</td>
-		<td>%s</td>
-		<td>%s</td>
-		<td>%s</td>
-		<td>%s</td>
-		</tr>`,
-		data["UID"],
-		data["FirstName"],
-		data["LastName"],
-		data["PayAmount"],
-		data["PaymentMode"],
-		data["PayStatus"],
-		data["DateOfTransaction"],
-		data["Location"],
-		data["Contact"],
-	)
-	fmt.Fprint(w, entry)
+		entry := fmt.Sprintf(`
+			<tr id="new-entry">
+			<td>%s</td>
+			<td>%s</td>
+			<td>%s</td>
+			<td>%.2f</td>
+			<td>%s</td>
+			<td>%s</td>
+			<td>%s</td>
+			<td>%s</td>
+			<td>%s</td>
+			</tr>`,
+			data["UID"],
+			data["FirstName"],
+			data["LastName"],
+			data["PayAmount"],
+			data["PaymentMode"],
+			data["PayStatus"],
+			data["DateOfTransaction"],
+			data["Location"],
+			data["Contact"],
+		)
+		fmt.Fprint(w, entry)
+	} else {
+		http.Error(w, "server is down", http.StatusInternalServerError)
+	}
 }
 
 func index(w http.ResponseWriter, resp *http.Request) {
