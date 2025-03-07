@@ -1,44 +1,72 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<script src="https://unpkg.com/htmx.org@1.9.6"></script>
-	<title>app</title>
-	<style>
-		body { font-family: Arial, sans-serif; padding: 20px; }
-		table { width: 100%%; border-collapse: collapse; margin-top: 20px; }
-		th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-		th { background-color: #f4f4f4; }
-	</style>
-</head>
-<body>
-	<h1>Transaction Dashboard</h1>
-    <button hx-get="/htmx/get/entry" hx-target="#transaction-details" hx-swap="beforeend">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://unpkg.com/htmx.org@1.9.6"></script>
+    <title>app</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        padding: 20px;
+      }
+      table {
+        width: 100%%;
+        border-collapse: collapse;
+        margin-top: 20px;
+      }
+      th,
+      td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+      }
+      th {
+        background-color: #f4f4f4;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Transaction Dashboard</h1>
+    <button
+      hx-get="/htmx/get/entry"
+      hx-target="#transaction-details"
+      hx-swap="beforeend"
+    >
       Load Transaction
     </button>
-		<button id="load-more">Refresh Transaction</button>
-	<table>
-		<thead>
-			<tr>
-				<th>&#8618;</th>
-				<th>UID</th>
-				<th>First Name</th>
-				<th>Last Name</th>
-				<th>Pay Amount</th>
-				<th>Payment Mode</th>
-				<th>Pay Status</th>
-				<th>Date</th>
-				<th>Location</th>
-				<th>Contact</th>
-			</tr>
-		</thead>
-		<tbody id="transaction-details">
-			<!-- New entry will be added here -->
-		</tbody>
-	</table>
+    <button id="load-more">Refresh Transaction</button>
+    <table>
+      <thead>
+        <tr>
+          <th>&#8618;</th>
+          <th>UID</th>
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th>Pay Amount</th>
+          <th>Payment Mode</th>
+          <th>Pay Status</th>
+          <th>Date</th>
+          <th>Location</th>
+          <th>Contact</th>
+        </tr>
+      </thead>
+      <tbody id="transaction-details">
+        <!-- New entry will be added here -->
+      </tbody>
+    </table>
 
-	<script>
+    <script>
+      function loadEntries(count = 14) {
+        for (let i = 0; i < count; i++) {
+          setTimeout(() => {
+            htmx.ajax("GET", "/htmx/get/entry", {
+              target: "#transaction-details",
+              swap: "beforeend",
+            });
+          }, i * 100);
+        }
+      }
 
 		function loadEntries(count = 14) {
 			for (let i = 0; i < count; i++) {
@@ -48,14 +76,13 @@
 			}
 		}
 
-		document.addEventListener("DOMContentLoaded", () => {
-				loadEntries();
-		});
+      document.addEventListener("DOMContentLoaded", () => {
+        loadEntries();
+      });
 
-		document.getElementById("load-more").addEventListener("click", () => {
-				loadEntries(7);
-		});
-	</script>
-
-</body>
+      document.getElementById("load-more").addEventListener("click", () => {
+        loadEntries(7);
+      });
+    </script>
+  </body>
 </html>
