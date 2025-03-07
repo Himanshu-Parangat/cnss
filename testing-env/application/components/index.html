@@ -68,13 +68,16 @@
         }
       }
 
-		function loadEntries(count = 14) {
-			for (let i = 0; i < count; i++) {
-				setTimeout(() => {
-					htmx.ajax("GET", "/htmx/get/entry", { target: "#transaction-details", swap: "beforeend" });
-				}, i * 100);
-			}
-		}
+      function showAlertOnce() {
+        alert("Server is Down !!");
+
+        htmx.off("htmx:responseError", showAlertOnce);
+        setTimeout(() => {
+          htmx.on("htmx:responseError", showAlertOnce);
+        }, 1000);
+      }
+
+      htmx.on("htmx:responseError", showAlertOnce);
 
       document.addEventListener("DOMContentLoaded", () => {
         loadEntries();
