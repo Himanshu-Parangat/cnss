@@ -7,15 +7,15 @@ import (
 	"os"
 )
 
-func GetReverseProxyAddress() string {
-	host := os.Getenv("REVERSE_PROXY_HOST_IP")
-	port := os.Getenv("REVERSE_PROXY_PORT")
+func GetFirewallAddress() string {
+	host := os.Getenv("FIREWALL_HOST_IP")
+	port := os.Getenv("FIREWALL_PORT")
 
 	if host == "" {
 		host = "127.0.0.1"
 	}
 	if port == "" {
-		port = "80"
+		port = "9000"
 	}
 
 	return fmt.Sprintf("%s:%s", host, port)
@@ -23,7 +23,7 @@ func GetReverseProxyAddress() string {
 
 func index(w http.ResponseWriter, resp *http.Request) {
 
-	message := `🌸🌸 Welcome to the Reverse Proxy! 🌸🌸
+	message := `🌸🌸 Welcome to the Reverse Proxy Firewall! 🌸🌸
 
 *---------------------------------------------------*
 | Available Endpoints  :                            |
@@ -32,7 +32,7 @@ func index(w http.ResponseWriter, resp *http.Request) {
 
 🔑 When you request url, it would be redirected to the server.
 
-🐛 This is an implementation of Reverse Proxy.
+🐛 This is an implementation of Reverse Proxy, Firewall.
 `
 
 	fmt.Fprintf(w, "%v", message)
@@ -41,7 +41,7 @@ func index(w http.ResponseWriter, resp *http.Request) {
 func main() {
 	http.HandleFunc("/", index)
 
-	address := GetReverseProxyAddress()
+	address := GetFirewallAddress()
 	log.Println("\n\nServer is running on http://" + address)
 	log.Fatal(http.ListenAndServe(address, nil))
 }
