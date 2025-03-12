@@ -15,7 +15,7 @@ func GetReverseProxyAddress() string {
 		host = "127.0.0.1"
 	}
 	if port == "" {
-		port = "80"
+		port = "8000"
 	}
 
 	return fmt.Sprintf("%s:%s", host, port)
