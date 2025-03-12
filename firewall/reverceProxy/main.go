@@ -23,6 +23,20 @@ func GetReverseProxyAddress() string {
 	return fmt.Sprintf("%s:%s", host, port)
 }
 
+func GetServerAddress() string {
+	host := os.Getenv("SERVER_HOST_IP")
+	port := os.Getenv("SERVER_PORT")
+
+	if host == "" {
+		host = "127.0.0.1"
+	}
+	if port == "" {
+		port = "8080"
+	}
+
+	return fmt.Sprintf("%s:%s", host, port)
+}
+
 func showHelpMessage(w http.ResponseWriter, resp *http.Request) {
 
 	message := `🌸🌸 Welcome to the Reverse Proxy! 🌸🌸
@@ -42,17 +56,21 @@ func showHelpMessage(w http.ResponseWriter, resp *http.Request) {
 
 func ReverseProxy(w http.ResponseWriter, resp *http.Request) {
 
-	targetURL, _ := url.Parse("http://localhost:8080")
-
+	targetURL, err := url.Parse("http://" + GetServerAddress())
+	if err != nil {
+		http.Error(w, "Internal server error", http.StatusInternalServerError)
+		log.Printf("error parsing target url: %v", err)
+		return
+	}
 
 	log.Printf("[Reverse Proxy] Incoming request: %s %s%s from %s",
-    resp.Method, resp.Host, resp.URL.Path, resp.RemoteAddr)
+		resp.Method, resp.Host, resp.URL.Path, resp.RemoteAddr)
 
 	proxy := httputil.NewSingleHostReverseProxy(targetURL)
 	proxy.ServeHTTP(w, resp)
 
 	log.Printf("[Reverse Proxy] Forwarded request: %s %s%s --> %s%s",
-    resp.Method, resp.Host, resp.URL.Path, targetURL, resp.URL.Path)
+		resp.Method, resp.Host, resp.URL.Path, targetURL, resp.URL.Path)
 }
 
 func checkQueryParams(w http.ResponseWriter, resp *http.Request) {
@@ -69,6 +87,6 @@ func main() {
 	http.HandleFunc("/", checkQueryParams)
 
 	address := GetReverseProxyAddress()
-	log.Println("\n\nReverse Proxy is running on http://" + address)
+	log.Printf("\n\nReverse Proxy is running on http://%s\nRequests will be forwarded to the target http://%s", address, GetServerAddress())
 	log.Fatal(http.ListenAndServe(address, nil))
 }
