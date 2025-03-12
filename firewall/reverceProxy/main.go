@@ -21,7 +21,7 @@ func GetReverseProxyAddress() string {
 	return fmt.Sprintf("%s:%s", host, port)
 }
 
-func index(w http.ResponseWriter, resp *http.Request) {
+func showHelpMessage(w http.ResponseWriter, resp *http.Request) {
 
 	message := `🌸🌸 Welcome to the Reverse Proxy! 🌸🌸
 
@@ -38,8 +38,22 @@ func index(w http.ResponseWriter, resp *http.Request) {
 	fmt.Fprintf(w, "%v", message)
 }
 
+func ReverseProxy(w http.ResponseWriter, resp *http.Request) {
+	fmt.Fprintf(w, "\nthis is a Reverse Proxy...\n")
+}
+
+func checkQueryParams(w http.ResponseWriter, resp *http.Request) {
+
+	if resp.URL.Query().Get("enable_help_measssage") == "force" {
+		showHelpMessage(w, resp)
+		return
+	}
+	ReverseProxy(w, resp)
+
+}
+
 func main() {
-	http.HandleFunc("/", index)
+	http.HandleFunc("/", checkQueryParams)
 
 	address := GetReverseProxyAddress()
 	log.Println("\n\nServer is running on http://" + address)
