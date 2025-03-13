@@ -7,6 +7,7 @@ import (
 	"net/http/httputil"
 	"net/url"
 	"os"
+	"strings"
 )
 
 func GetReverseProxyAddress() string {
@@ -54,6 +55,22 @@ func showHelpMessage(w http.ResponseWriter, resp *http.Request) {
 	fmt.Fprintf(w, "%v", message)
 }
 
+func getHeader(resp *http.Request) string {
+
+	var headers []string
+	for key, values := range resp.Header {
+		headers = append(headers, fmt.Sprintf("%s: %s", key, values))
+	}
+	return strings.Join(headers, "\n")
+}
+
+
+func logRequest(resp *http.Request)  {
+	headers := getHeader(resp)
+	log.Printf("HEADERS\n%s", headers)
+}
+
+
 func ReverseProxy(w http.ResponseWriter, resp *http.Request) {
 
 	targetURL, err := url.Parse("http://" + GetServerAddress())
@@ -62,6 +79,8 @@ func ReverseProxy(w http.ResponseWriter, resp *http.Request) {
 		log.Printf("error parsing target url: %v", err)
 		return
 	}
+
+	logRequest(resp)
 
 	log.Printf("[Reverse Proxy] Incoming request: %s %s%s from %s",
 		resp.Method, resp.Host, resp.URL.Path, resp.RemoteAddr)
