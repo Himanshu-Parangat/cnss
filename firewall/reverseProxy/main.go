@@ -135,21 +135,27 @@ func logRequest(resp *http.Request, requestType string, color Color) {
 }
 
 func logIncomingRequest(resp *http.Request) {
-	logRequest(resp, "Incoming Request", Yellow)
+
+	fmt.Printf("\n*-------------- :｡･:*:･ﾟ’★,｡･:*:･ﾟ’☆------------------⋆𐙚₊˚⊹REQUEST INCOMING⋆౨ৎ˚⟡˖---------------- :｡･:*:･ﾟ’★,｡･:*:･ﾟ’☆------------------*\n")
 
 	summery := fmt.Sprintf("%s %s%s from %s",
 		resp.Method, resp.Host, resp.URL.Path, resp.RemoteAddr)
 
-	LogWithColor(summery,"Summery", "Reverse Proxy Incoming", Red )
+	LogWithColor(summery, "Summery", "Reverse Proxy Incoming", Red)
+
+	logRequest(resp, "Incoming Request", Yellow)
 }
 
 func logOutgoingRequest(resp *http.Request) {
-	logRequest(resp, "Outgoing Request", Green)
+
+	fmt.Printf("\n*-------------- :｡･:*:･ﾟ’★,｡･:*:･ﾟ’☆------------------⋆𐙚₊˚⊹REQUEST OUTGOING⋆౨ৎ˚⟡˖---------------- :｡･:*:･ﾟ’★,｡･:*:･ﾟ’☆------------------*\n")
 
 	summery := fmt.Sprintf("%s %s%s --> %s%s",
 		resp.Method, resp.Host, resp.URL.Path, "http://"+GetServerAddress(), resp.URL.Path)
 
-	LogWithColor(summery,"Summery", "Reverse Proxy redirected", Red )
+	LogWithColor(summery, "Summery", "Reverse Proxy redirected", Red)
+
+	logRequest(resp, "Outgoing Request", Green)
 }
 
 func ReverseProxy(w http.ResponseWriter, resp *http.Request) {
