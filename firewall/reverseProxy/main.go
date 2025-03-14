@@ -134,6 +134,23 @@ func logRequest(resp *http.Request, requestType string, color Color) {
 	LogWithColor(resp.Close, "Close Connection Afterwards", requestType, color)
 }
 
+func logIncomingRequest(resp *http.Request) {
+	logRequest(resp, "Incoming Request", Yellow)
+
+	summery := fmt.Sprintf("%s %s%s from %s",
+		resp.Method, resp.Host, resp.URL.Path, resp.RemoteAddr)
+
+	LogWithColor(summery,"Summery", "Reverse Proxy Incoming", Red )
+}
+
+func logOutgoingRequest(resp *http.Request) {
+	logRequest(resp, "Outgoing Request", Green)
+
+	summery := fmt.Sprintf("%s %s%s --> %s%s",
+		resp.Method, resp.Host, resp.URL.Path, "http://"+GetServerAddress(), resp.URL.Path)
+
+	LogWithColor(summery,"Summery", "Reverse Proxy redirected", Red )
+}
 
 func ReverseProxy(w http.ResponseWriter, resp *http.Request) {
 
@@ -144,16 +161,12 @@ func ReverseProxy(w http.ResponseWriter, resp *http.Request) {
 		return
 	}
 
-	logRequest(resp, "debug", Green)
-
-	log.Printf("[Reverse Proxy] Incoming request: %s %s%s from %s",
-		resp.Method, resp.Host, resp.URL.Path, resp.RemoteAddr)
+	logIncomingRequest(resp)
 
 	proxy := httputil.NewSingleHostReverseProxy(targetURL)
 	proxy.ServeHTTP(w, resp)
 
-	log.Printf("[Reverse Proxy] Forwarded request: %s %s%s --> %s%s",
-		resp.Method, resp.Host, resp.URL.Path, targetURL, resp.URL.Path)
+	logOutgoingRequest(resp)
 }
 
 func checkQueryParams(w http.ResponseWriter, resp *http.Request) {
