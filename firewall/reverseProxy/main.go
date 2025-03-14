@@ -64,6 +64,27 @@ func getHeader(resp *http.Request) string {
 	return strings.Join(headers, "\n")
 }
 
+func getTransferEncoding(resp *http.Request) []string {
+	if len(resp.TransferEncoding) > 0 {
+		return resp.TransferEncoding
+	}
+	return []string{"No Transfer Encoding"}
+}
+
+func getQueryParams(resp *http.Request) string {
+
+	if len(resp.URL.Query()) > 0 {
+
+		var queryParams []string
+
+		for key, values := range resp.URL.Query() {
+			queryParams = append(queryParams, fmt.Sprintf("%s: %s", key, values))
+		}
+
+		return strings.Join(queryParams, "\n")
+	}
+	return "[No Path Parameter]"
+}
 
 type Color string
 
@@ -101,6 +122,16 @@ func LogWithColor(input any, label string, Marker string, valueColor Color) {
 func logRequest(resp *http.Request, requestType string, color Color) {
 	LogWithColor(getHeader(resp), "Headers", requestType, color)
 
+	LogWithColor(requestType, "Request Type", requestType, color)
+	LogWithColor(resp.RemoteAddr, "Remote Address", requestType, color)
+	LogWithColor(getTransferEncoding(resp), "Transfer Encoding", requestType, color)
+	LogWithColor(resp.Method, "Method", requestType, color)
+	LogWithColor(resp.ContentLength, "Content Length", requestType, color)
+	LogWithColor(getQueryParams(resp), "Query Parameter", requestType, color)
+	LogWithColor(resp.RequestURI, "Requested URI", requestType, color)
+	LogWithColor(resp.Host, "Host", requestType, color)
+	LogWithColor(resp.Proto, "Protocol", requestType, color)
+	LogWithColor(resp.Close, "Close Connection Afterwards", requestType, color)
 }
 
 
