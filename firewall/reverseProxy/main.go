@@ -73,34 +73,34 @@ const (
 	Blue    Color = "\033[34m"
 	Yellow  Color = "\033[33m"
 
-	White   Color = "\033[37m"
-	Green   Color = "\033[32m"
-	Red     Color = "\033[31m"
-	Cyan    Color = "\033[36m"
-	Black   Color = "\033[30m"
-	Gray    Color = "\033[90m"
+	White Color = "\033[37m"
+	Green Color = "\033[32m"
+	Red   Color = "\033[31m"
+	Cyan  Color = "\033[36m"
+	Black Color = "\033[30m"
+	Gray  Color = "\033[90m"
 )
 
 var logStore []string
 
-func LogWithColor(input any, label string, valueColor Color) {
+func LogWithColor(input any, label string, Marker string, valueColor Color) {
 
 	value := fmt.Sprintf("%v", input)
 
 	for _, value := range strings.SplitAfter(value, "\n") {
 		value = strings.TrimSuffix(value, "\n")
 
-		formattedLine := fmt.Sprintf("%s[debug]%s %s%s%s %s%s%s",
-			Magenta, Reset, Blue, label, Reset, valueColor, value, Reset)
+		formattedLine := fmt.Sprintf("%s[%s]%s %s%s%s %s%s%s",
+			Magenta, Marker, Reset, Blue, label, Reset, valueColor, value, Reset)
 
 		logStore = append(logStore, formattedLine)
 		log.Println(formattedLine)
 	}
 }
 
-func logRequest(resp *http.Request)  {
-	headers := getHeader(resp)
-	LogWithColor(headers,"Headers", Yellow )
+func logRequest(resp *http.Request, requestType string, color Color) {
+	LogWithColor(getHeader(resp), "Headers", requestType, color)
+
 }
 
 
@@ -113,7 +113,7 @@ func ReverseProxy(w http.ResponseWriter, resp *http.Request) {
 		return
 	}
 
-	logRequest(resp)
+	logRequest(resp, "debug", Green)
 
 	log.Printf("[Reverse Proxy] Incoming request: %s %s%s from %s",
 		resp.Method, resp.Host, resp.URL.Path, resp.RemoteAddr)
