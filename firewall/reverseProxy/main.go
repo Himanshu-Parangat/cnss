@@ -65,9 +65,25 @@ func getHeader(resp *http.Request) string {
 }
 
 
+var logStore []string
+
+func LogWithColor(input any, label string) {
+
+	value := fmt.Sprintf("%v", input)
+
+	for _, value := range strings.SplitAfter(value, "\n") {
+		value = strings.TrimSuffix(value, "\n")
+
+		formattedLine := fmt.Sprintf("\033[35m[debug]\033[0m \033[34m%s\033[0m \033[32m%s\033[0m",label, value)
+
+		logStore = append(logStore, formattedLine)
+		log.Println(formattedLine)
+	}
+}
+
 func logRequest(resp *http.Request)  {
 	headers := getHeader(resp)
-	log.Printf("HEADERS\n%s", headers)
+	LogWithColor(headers,"Headers")
 }
 
 
