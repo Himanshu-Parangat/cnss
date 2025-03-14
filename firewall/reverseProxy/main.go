@@ -158,6 +158,22 @@ func logOutgoingRequest(resp *http.Request) {
 	logRequest(resp, "Outgoing Request", Green)
 }
 
+func ModifyIncomingRequest(targetURL *url.URL) func(*httputil.ProxyRequest) {
+	return func(proxyReq *httputil.ProxyRequest) {
+		proxyReq.Out.URL.Scheme = targetURL.Scheme
+		proxyReq.Out.URL.Host = targetURL.Host
+		proxyReq.Out.Host = targetURL.Host
+	}
+}
+
+func ModifyOutgoingRequest(resp *http.Response) error {
+	resp.Header.Set("X-Proxy-Modified", "yes")
+	resp.Header.Add("Via", "CNSS ReverseProxy Firewall")
+	log.Printf("Outgoing Response: Status=%d, Headers=%v", resp.StatusCode, resp.Header)
+	return nil
+}
+
+
 func ReverseProxy(w http.ResponseWriter, resp *http.Request) {
 
 	targetURL, err := url.Parse("http://" + GetServerAddress())
@@ -169,7 +185,12 @@ func ReverseProxy(w http.ResponseWriter, resp *http.Request) {
 
 	logIncomingRequest(resp)
 
-	proxy := httputil.NewSingleHostReverseProxy(targetURL)
+	// proxy := httputil.NewSingleHostReverseProxy(targetURL)
+	proxy := &httputil.ReverseProxy{
+		Rewrite:        ModifyIncomingRequest(targetURL),
+		ModifyResponse: ModifyOutgoingRequest,
+	}
+
 	proxy.ServeHTTP(w, resp)
 
 	logOutgoingRequest(resp)
