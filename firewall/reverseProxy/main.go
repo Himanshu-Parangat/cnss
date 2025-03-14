@@ -65,16 +65,33 @@ func getHeader(resp *http.Request) string {
 }
 
 
+type Color string
+
+const (
+	Reset   Color = "\033[0m"
+	Magenta Color = "\033[35m"
+	Blue    Color = "\033[34m"
+	Yellow  Color = "\033[33m"
+
+	White   Color = "\033[37m"
+	Green   Color = "\033[32m"
+	Red     Color = "\033[31m"
+	Cyan    Color = "\033[36m"
+	Black   Color = "\033[30m"
+	Gray    Color = "\033[90m"
+)
+
 var logStore []string
 
-func LogWithColor(input any, label string) {
+func LogWithColor(input any, label string, valueColor Color) {
 
 	value := fmt.Sprintf("%v", input)
 
 	for _, value := range strings.SplitAfter(value, "\n") {
 		value = strings.TrimSuffix(value, "\n")
 
-		formattedLine := fmt.Sprintf("\033[35m[debug]\033[0m \033[34m%s\033[0m \033[32m%s\033[0m",label, value)
+		formattedLine := fmt.Sprintf("%s[debug]%s %s%s%s %s%s%s",
+			Magenta, Reset, Blue, label, Reset, valueColor, value, Reset)
 
 		logStore = append(logStore, formattedLine)
 		log.Println(formattedLine)
@@ -83,7 +100,7 @@ func LogWithColor(input any, label string) {
 
 func logRequest(resp *http.Request)  {
 	headers := getHeader(resp)
-	LogWithColor(headers,"Headers")
+	LogWithColor(headers,"Headers", Yellow )
 }
 
 
