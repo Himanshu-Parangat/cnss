@@ -92,6 +92,41 @@ deps-simulator:
 
 
 
+build-all: 
+	@printf "$(Purple)[All]$(Green)[Build all component's] Reverse Proxy, WAF, Server, Application & Simulator in $(BIN_DIR) directory $(Cyan)\n"
+	@$(MAKE) metadata build-waf build-reverseProxy build-application build-server build-simulator
+
+
+build-reverseProxy: clean-reverseProxy deps-reverseProxy
+	@printf "$(Purple)[Reverse Proxy]$(Yellow)[Build component] Building reverseProxy...$(Reset)\n"
+	@cd $(REVERSEPROXY_PATH) && go build -o ../../$(BIN_DIR)/reverseProxy-$(OS)-$(ARCH)-$(TIMESTAMP)
+	@printf "$(Purple)[Reverse Proxy]$(Green)[Build component] Built binary reverseProxy here -> $(BIN_DIR)/reverseProxy-$(OS)-$(ARCH)-$(TIMESTAMP)$(Reset)\n"
+
+
+build-waf: clean-waf deps-waf
+	@printf "$(Purple)[WAF]$(Yellow)[Build component] Building waf...$(Reset)\n"
+	@cd $(WAF_PATH) && go build -o ../../$(BIN_DIR)/waf-$(OS)-$(ARCH)-$(TIMESTAMP)
+	@printf "$(Purple)[WAF]$(Green)[Build component] Built binary waf here -> $(BIN_DIR)/waf-$(OS)-$(ARCH)-$(TIMESTAMP)$(Reset)\n"
+
+
+build-application: clean-application deps-application
+	@printf "$(Purple)[Application]$(Yellow)[Build component] Building application...$(Reset)\n"
+	@cd $(APPLICATION_PATH) && go build -o ../../$(BIN_DIR)/application-$(OS)-$(ARCH)-$(TIMESTAMP)
+	@printf "$(Purple)[Application]$(Green)[Build component] Built binary application here -> $(BIN_DIR)/application-$(OS)-$(ARCH)-$(TIMESTAMP)$(Reset)\n"
+
+
+build-server: clean-server deps-server
+	@printf "$(Purple)[Server]$(Yellow)[Build component] Building server...$(Reset)\n"
+	@cd $(SERVER_PATH) && go build -o ../../$(BIN_DIR)/server-$(OS)-$(ARCH)-$(TIMESTAMP)
+	@printf "$(Purple)[Server]$(Green)[Build component] Built binary server here -> $(BIN_DIR)/server-$(OS)-$(ARCH)-$(TIMESTAMP)$(Reset)\n"
+
+
+build-simulator: clean-simulator deps-simulator
+	@printf "$(Purple)[Simulator]$(Yellow)[Build component] Building simulator...$(Reset)\n"
+	@cd $(SIMULATOR_PATH) && go build -o ../../$(BIN_DIR)/simulator-$(OS)-$(ARCH)-$(TIMESTAMP)
+	@printf "$(Purple)[Simulator]$(Green)[Build component] Built binary simulator here -> $(BIN_DIR)/simulator-$(OS)-$(ARCH)-$(TIMESTAMP)$(Reset)\n"
+
+
 
 
 
