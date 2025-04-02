@@ -11,12 +11,23 @@ Gray=\033[0;90m
 Reset=\033[0m
 
 
+BIN_DIR=bin
 
+REVERSEPROXY_PATH=firewall/reverseProxy
+WAF_PATH=firewall/waf
+APPLICATION_PATH=testing-env/application
+SERVER_PATH=testing-env/server
+SIMULATOR_PATH=testing-env/simulator
 
 # Metadata
 TIMESTAMP=$(shell date +"%Y-%b-%d_%H-%M-%S")
 ARCH=$(shell go env GOARCH)
 OS=$(shell go env GOOS)
+
+
+ensure:
+	@printf "\n$(Purple)[Essentials]$(Green)[directory check] ensureing required $(BIN_DIR) directory $(Reset)\n"
+	@mkdir -p ./$(BIN_DIR)
 
 
 metadata:
