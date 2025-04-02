@@ -91,3 +91,41 @@ deps-simulator:
 	@printf "$(Purple)[Simulator]$(Green)[Go Modules] Dependencies resolved successfully!$(Reset)\n"
 
 
+
+
+
+
+clean-all: clean-simulator clean-server clean-application clean-waf clean-reverseProxy
+	@printf "\n$(Purple)[cleanup]$(Red) Cleaning up binaries directory...$(Reset)\n"
+	@rm -r ./$(BIN_DIR)
+	@printf "$(Purple)[Cleanup]$(Red) Cleanup complete!$(Reset)\n"
+
+
+clean-reverseProxy: ensure
+	@printf "\n$(Purple)[Reverse Proxy]$(Red)[cleanup component] Cleaning up old reverseProxy binaries: %s$(Reset)\n" "$$(ls -t $(BIN_DIR) | grep 'reverseProxy-$(OS)-$(ARCH)-*' || echo 'No old binaries found.')"
+	@rm -f $(BIN_DIR)/reverseProxy-$(OS)-$(ARCH)-*
+	@printf "$(Purple)[Reverse Proxy]$(Red)[cleanup] Removed old reverseProxy binaries: %s$(Reset)\n" "$$(ls -t $(BIN_DIR) | grep 'reverseProxy-$(OS)-$(ARCH)-*' || echo 'No old binaries found.')"
+
+
+clean-waf: ensure
+	@printf "\n$(Purple)[WAF]$(Red)[cleanup component] Cleaning up old waf binaries: %s$(Reset)\n" "$$(ls -t $(BIN_DIR) | grep 'waf-$(OS)-$(ARCH)-*' || echo 'No old binaries found.')"
+	@rm -f $(BIN_DIR)/waf-$(OS)-$(ARCH)-*
+	@printf "$(Purple)[WAF]$(Red)[cleanup] Removed old waf binaries: %s$(Reset)\n" "$$(ls -t $(BIN_DIR) | grep 'waf-$(OS)-$(ARCH)-*' || echo 'No old binaries found.')"
+
+
+clean-server: ensure
+	@printf "\n$(Purple)[Server]$(Red)[cleanup component] Cleaning up old server binaries: %s$(Reset)\n" "$$(ls -t $(BIN_DIR) | grep 'server-$(OS)-$(ARCH)-*' || echo 'No old binaries found.')"
+	@rm -f $(BIN_DIR)/server-$(OS)-$(ARCH)-*
+	@printf "$(Purple)[Server]$(Red)[cleanup] Removed old server binaries: %s$(Reset)\n" "$$(ls -t $(BIN_DIR) | grep 'server-$(OS)-$(ARCH)-*' || echo 'No old binaries found.')"
+
+
+clean-application: ensure
+	@printf "\n$(Purple)[Application]$(Red)[cleanup component] Cleaning up old application binaries: %s$(Reset)\n" "$$(ls -t $(BIN_DIR) | grep 'application-$(OS)-$(ARCH)-*' || echo 'No old binaries found.')"
+	@rm -f $(BIN_DIR)/application-$(OS)-$(ARCH)-*
+	@printf "$(Purple)[Application]$(Red)[cleanup] Removed old application binaries: %s$(Reset)\n" "$$(ls -t $(BIN_DIR) | grep 'application-$(OS)-$(ARCH)-*' || echo 'No old binaries found.')"
+
+
+clean-simulator: ensure
+	@printf "\n$(Purple)[Simulator]$(Red)[cleanup component] Cleaning up old simulator binaries: %s$(Reset)\n" "$$(ls -t $(BIN_DIR) | grep 'simulator-$(OS)-$(ARCH)-*' || echo 'No old binaries found.')"
+	@rm -f $(BIN_DIR)/simulator-$(OS)-$(ARCH)-*
+	@printf "$(Purple)[Simulator]$(Red)[cleanup] Removed old simulator binaries: %s$(Reset)\n" "$$(ls -t $(BIN_DIR) | grep 'simulator-$(OS)-$(ARCH)-*' || echo 'No old binaries found.')"
