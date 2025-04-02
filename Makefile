@@ -1,4 +1,17 @@
-# color for printf
+
+####################################################################################################
+#   ____ _   _ ____ ____    ____  _   _ ___ _     ____    ____  ____   ___   ____ _____ ____ ____  #
+#  / ___| \ | / ___/ ___|  | __ )| | | |_ _| |   |  _ \  |  _ \|  _ \ / _ \ / ___| ____/ ___/ ___| #
+# | |   |  \| \___ \___ \  |  _ \| | | || || |   | | | | | |_) | |_) | | | | |   |  _| \___ \___ \ #
+# | |___| |\  |___) |__) | | |_) | |_| || || |___| |_| | |  __/|  _ <| |_| | |___| |___ ___) |__) |#
+#  \____|_| \_|____/____/  |____/ \___/|___|_____|____/  |_|   |_| \_\\___/ \____|_____|____/____/ #
+####################################################################################################
+
+
+##############################
+# color for printing message #
+##############################
+
 Red=\033[0;31m
 Green=\033[0;32m
 Yellow=\033[0;33m
@@ -11,6 +24,10 @@ Gray=\033[0;90m
 Reset=\033[0m
 
 
+###########################################
+# Import directory's & Reusable Variables #
+###########################################
+
 BIN_DIR=bin
 
 REVERSEPROXY_PATH=firewall/reverseProxy
@@ -19,12 +36,15 @@ APPLICATION_PATH=testing-env/application
 SERVER_PATH=testing-env/server
 SIMULATOR_PATH=testing-env/simulator
 
-# Metadata
 TIMESTAMP=$(shell date +"%Y-%b-%d_%H-%M-%S")
 ARCH=$(shell go env GOARCH)
 OS=$(shell go env GOOS)
 
 
+
+###############
+# Help Target #
+###############
 
 help:
 	@printf "\n$(Purple)[Greeting]$(Cyan) This Makefile is for Automating Build process for CNSS Reverse Proxy firewall$(Reset)\n"
@@ -73,10 +93,18 @@ help:
 
 
 
+###########################
+# Ensure directory target #
+###########################
+
 ensure:
 	@printf "\n$(Purple)[Essentials]$(Green)[directory check] ensureing required $(BIN_DIR) directory $(Reset)\n"
 	@mkdir -p ./$(BIN_DIR)
 
+
+###################
+# Metadata Target #
+###################
 
 metadata:
 	@printf "$(Purple)[Metadata]$(Reset)Check Metadata to include in binary name$(Reset)\n\n"
@@ -84,6 +112,10 @@ metadata:
 	@printf "$(Blue)    Set Architecture $(Reset)=>    $(Green) $(ARCH) $(Reset)\n"
 	@printf "$(Blue)    Set os           $(Reset)=>    $(Green) $(OS) $(Reset)\n"
 
+
+#################################
+# Dependence Resolution Targets #
+#################################
 
 deps-all:
 	@printf "$(Purple)[All]$(Green)[Go Modules] Dependence Resolving for all Modules Reverse Proxy,WAF, Server, Application & Simulator $(Cyan)\n"
@@ -139,6 +171,9 @@ deps-simulator:
 	@printf "$(Purple)[Simulator]$(Green)[Go Modules] Dependencies resolved successfully!$(Reset)\n"
 
 
+#################
+# Build Targets #
+#################
 
 build-all: 
 	@printf "$(Purple)[All]$(Green)[Build all component's] Reverse Proxy, WAF, Server, Application & Simulator in $(BIN_DIR) directory $(Cyan)\n"
@@ -176,6 +211,10 @@ build-simulator: clean-simulator deps-simulator
 
 
 
+###############
+# Run Targets #
+###############
+
 
 run-reverseProxy: build-reverseProxy
 	@printf "$(Purple)[Reverse Proxy]$(Yellow)[Run component] Running latest reverseProxy binary: %s$(Reset)\n" "$$(ls -t $(BIN_DIR) | grep 'reverseProxy-$(OS)-$(ARCH)-*' || echo 'No old binaries found.')"
@@ -202,7 +241,9 @@ run-simulator: build-simulator
 	@./$(BIN_DIR)/$$(ls -t $(BIN_DIR) | grep "simulator-$(OS)-$(ARCH)-*")
 
 
-
+#################
+# Clean Targets #
+#################
 
 clean-all: clean-simulator clean-server clean-application clean-waf clean-reverseProxy
 	@printf "\n$(Purple)[cleanup]$(Red) Cleaning up binaries directory...$(Reset)\n"
