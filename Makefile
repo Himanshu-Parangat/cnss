@@ -42,6 +42,15 @@ OS=$(shell go env GOOS)
 
 
 
+#############################
+# wildcard for Dead Targets #
+#############################
+
+%:
+	@printf "\n$(Gray)[Dead]$(Cyan) The target $(Red)'$@'$(Cyan) is not hooked up to anything meaningful.$(Reset)"
+	@printf "\n$(Yellow)[Hint]$(Cyan) Try running $(Green)'make help'$(Cyan) for usage information.$(Reset)\n"
+
+
 ###############
 # Help Target #
 ###############
