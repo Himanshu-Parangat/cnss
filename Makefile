@@ -41,6 +41,18 @@ ARCH=$(shell go env GOARCH)
 OS=$(shell go env GOOS)
 
 
+#########################
+# Miscellaneous Targets #
+#########################
+
+.DEFAULT_GOAL := help
+
+.PHONY: % help ensure metadata \
+	build-reverseProxy build-waf build-server build-application build-simulator build-all \
+	run-reverseProxy run-waf run-server run-application run-simulator \
+	deps-reverseProxy deps-waf deps-server deps-application deps-simulator deps-all \
+	clean-reverseProxy clean-waf clean-server clean-application clean-simulator clean-all
+
 
 #############################
 # wildcard for Dead Targets #
