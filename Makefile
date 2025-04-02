@@ -25,6 +25,54 @@ ARCH=$(shell go env GOARCH)
 OS=$(shell go env GOOS)
 
 
+
+help:
+	@printf "\n$(Purple)[Greeting]$(Cyan) This Makefile is for Automating Build process for CNSS Reverse Proxy firewall$(Reset)\n"
+	@printf "\n$(Purple)[Help]$(Cyan) Usage: make <target>$(Reset)\n\n"
+	@printf "$(Blue)Available Targets:$(Reset)\n"
+	@printf "$(Purple)  help$(Reset)               - Display this help message\n"
+	@printf "$(Purple)  ensure$(Reset)             - Ensure the required '$(BIN_DIR)' directory exists\n"
+	@printf "$(Purple)  metadata$(Reset)           - Display metadata (timestamp, OS, architecture)\n\n"
+
+	@printf "$(Blue)Build Targets:$(Reset)\n"
+	@printf "$(Purple)  build-reverseProxy$(Reset) - Build the Reverse Proxy component\n"
+	@printf "$(Purple)  build-waf$(Reset)          - Build the Web Application Firewall (WAF)\n"
+	@printf "$(Purple)  build-application$(Reset)  - Build the Application component\n"
+	@printf "$(Purple)  build-server$(Reset)       - Build the Server component\n"
+	@printf "$(Purple)  build-simulator$(Reset)    - Build the Simulator component\n"
+	@printf "$(Purple)  build-all$(Reset)          - Build all components\n\n"
+
+	@printf "$(Blue)Go Dependence Management Targets:$(Reset)\n"
+	@printf "$(Purple)  deps-reverseProxy$(Reset)  - Dependence resolution for Reverse Proxy Module\n"
+	@printf "$(Purple)  deps-waf$(Reset)           - Dependence resolution for Web Application Firewall (WAF)\n"
+	@printf "$(Purple)  deps-application$(Reset)   - Dependence resolution for Application Module\n"
+	@printf "$(Purple)  deps-server$(Reset)        - Dependence resolution for Server Module\n"
+	@printf "$(Purple)  deps-simulator$(Reset)     - Dependence resolution for Simulator Module\n"
+	@printf "$(Purple)  deps-all$(Reset)           - Dependence resolution all Modules\n\n"
+
+	@printf "$(Blue)Run Targets:$(Reset)\n"
+	@printf "$(Purple)  run-reverseProxy$(Reset)   - Run the latest built Reverse Proxy binary\n"
+	@printf "$(Purple)  run-waf$(Reset)            - Run the latest built WAF binary\n"
+	@printf "$(Purple)  run-application$(Reset)    - Run the latest built Application binary\n"
+	@printf "$(Purple)  run-server$(Reset)         - Run the latest built Server binary\n"
+	@printf "$(Purple)  run-simulator$(Reset)      - Run the latest built Simulator binary\n\n"
+
+	@printf "$(Blue)Clean Targets:$(Reset)\n"
+	@printf "$(Purple)  clean-reverseProxy$(Reset) - Remove the Reverse Proxy component\n"
+	@printf "$(Purple)  clean-waf$(Reset)          - Remove the Web Application Firewall (WAF)\n"
+	@printf "$(Purple)  clean-application$(Reset)  - Remove the Application component\n"
+	@printf "$(Purple)  clean-server$(Reset)       - Remove the Server component\n"
+	@printf "$(Purple)  clean-simulator$(Reset)    - Remove the Simulator component\n"
+	@printf "$(Purple)  clean-all$(Reset)          - Remove all components\n\n"
+
+	@printf "$(Red)Example Usage:$(Reset)\n"
+	@printf "$(Yellow)  make build-all$(Reset)    - Build all components\n"
+	@printf "$(Yellow)  make run-server$(Reset)   - Run the latest built Server binary\n"
+	@printf "$(Yellow)  make clean-waf$(Reset)    - Remove waf binaries\n\n"
+
+
+
+
 ensure:
 	@printf "\n$(Purple)[Essentials]$(Green)[directory check] ensureing required $(BIN_DIR) directory $(Reset)\n"
 	@mkdir -p ./$(BIN_DIR)
