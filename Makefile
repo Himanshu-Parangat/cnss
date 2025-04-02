@@ -129,6 +129,32 @@ build-simulator: clean-simulator deps-simulator
 
 
 
+run-reverseProxy: build-reverseProxy
+	@printf "$(Purple)[Reverse Proxy]$(Yellow)[Run component] Running latest reverseProxy binary: %s$(Reset)\n" "$$(ls -t $(BIN_DIR) | grep 'reverseProxy-$(OS)-$(ARCH)-*' || echo 'No old binaries found.')"
+	@./$(BIN_DIR)/$$(ls -t $(BIN_DIR) | grep "reverseProxy-$(OS)-$(ARCH)-*")
+
+
+run-waf: build-waf
+	@printf "$(Purple)[WAF]$(Yellow)[Run component] Running latest waf binary: %s$(Reset)\n" "$$(ls -t $(BIN_DIR) | grep 'waf-$(OS)-$(ARCH)-*' || echo 'No old binaries found.')"
+	@./$(BIN_DIR)/$$(ls -t $(BIN_DIR) | grep "waf-$(OS)-$(ARCH)-*")
+
+
+run-server: build-server
+	@printf "$(Purple)[Server]$(Yellow)[Run component] Running latest server binary: %s$(Reset)\n" "$$(ls -t $(BIN_DIR) | grep 'server-$(OS)-$(ARCH)-*' || echo 'No old binaries found.')"
+	@./$(BIN_DIR)/$$(ls -t $(BIN_DIR) | grep "server-$(OS)-$(ARCH)-*")
+
+
+run-application: build-application
+	@printf "$(Purple)[Application]$(Yellow)[Run component] Running latest application binary: %s$(Reset)\n" "$$(ls -t $(BIN_DIR) | grep 'application-$(OS)-$(ARCH)-*' || echo 'No old binaries found.')"
+	@./$(BIN_DIR)/$$(ls -t $(BIN_DIR) | grep "application-$(OS)-$(ARCH)-*")
+
+
+run-simulator: build-simulator
+	@printf "$(Purple)[Simulator]$(Yellow)[Run component] Running latest simulator binary: %s$(Reset)\n" "$$(ls -t $(BIN_DIR) | grep 'simulator-$(OS)-$(ARCH)-*' || echo 'No old binaries found.')"
+	@./$(BIN_DIR)/$$(ls -t $(BIN_DIR) | grep "simulator-$(OS)-$(ARCH)-*")
+
+
+
 
 clean-all: clean-simulator clean-server clean-application clean-waf clean-reverseProxy
 	@printf "\n$(Purple)[cleanup]$(Red) Cleaning up binaries directory...$(Reset)\n"
