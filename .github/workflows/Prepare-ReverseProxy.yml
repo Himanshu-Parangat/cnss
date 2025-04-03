@@ -1,0 +1,22 @@
+name: Build Reverse Proxy
+
+on:
+  workflow_dispatch:
+
+jobs:
+  dependency_resolve:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Checkout Production
+        uses: actions/checkout@v4
+        with:
+          ref: prod
+
+      - name: Setup Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: 'stable'
+
+      - name: Compile Reverse Proxy Component
+        run: make build-reverseProxy
