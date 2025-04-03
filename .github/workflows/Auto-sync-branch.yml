@@ -1,0 +1,20 @@
+name: Sync Main to Prod
+
+permissions:
+  contents: write
+
+on:
+  workflow_dispatch:
+
+jobs:
+  branch-sync:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Check files & directory list
+        id: list-all-director
+        run: |
+          ls -all
