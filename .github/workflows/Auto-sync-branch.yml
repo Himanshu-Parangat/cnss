@@ -23,3 +23,18 @@ jobs:
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
           echo -e "::notice:: \e[32m[Configure] Git user configured\e[0m"
 
+      - name: Push latest changes from main to prod
+        if: github.ref == 'refs/heads/main'
+        run: |
+          echo -e "::notice:: \e[35m[Fetch] Fetching latest changes from origin\e[0m"
+          git fetch origin 
+          echo -e "::notice:: \e[35m[Prod] Checking out prod (production) branch\e[0m"
+          git checkout prod || git checkout -b prod
+          echo -e "::notice:: \e[32m[Sync]Merging main into prod (production) branch\e[0m"
+          git merge main -X theirs
+          if [ $? -ne 0 ]; then
+            echo -e "::warning:: \e[35m[Resolve] Merge conflicts detected and resolved using 'theirs' strategy\e[0m"
+          fi
+          echo -e "::notice:: \e[32m[Push] Pushing changes to prod (production) branch\e[0m"
+          git push origin prod
+          echo -e "::notice:: \e[32m[Done] Prod (production) branch successfully updated\e[0m"
