@@ -1,10 +1,9 @@
 name: Sync Main to Prod
+on:
+  workflow_dispatch:
 
 permissions:
   contents: write
-
-on:
-  workflow_dispatch:
 
 jobs:
   branch-sync:
@@ -13,8 +12,14 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-      - name: Check files & directory list
-        id: list-all-director
+      - name: Set up git
+        id: set-git-info
         run: |
-          ls -all
+          echo -e "::notice:: \e[35m[Set] Setting up Git user\e[0m"
+          git config --global user.name 'GitHub Actions Bot'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          echo -e "::notice:: \e[32m[Configure] Git user configured\e[0m"
+
