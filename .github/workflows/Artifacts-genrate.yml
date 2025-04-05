@@ -110,3 +110,12 @@ jobs:
 
       - name: Build All Components
         run: make build-all
+
+
+      - name: Upload Built Binaries
+        uses: actions/upload-artifact@v4
+        with:
+          name: built-binaries
+          path: bin/*
+          if-no-files-found: error
+          retention-days: 1
