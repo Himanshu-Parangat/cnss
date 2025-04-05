@@ -102,3 +102,11 @@ jobs:
           key: ${{ runner.os }}-go-${{ hashFiles('**/testing-env/simulator/go.sum') }}
           restore-keys: |
             ${{ runner.os }}-go-
+
+
+      - name: Display Build Help message
+        run: make help
+
+
+      - name: Build All Components
+        run: make build-all
