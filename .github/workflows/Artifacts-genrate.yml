@@ -17,3 +17,28 @@ jobs:
           go-version: 'stable'
           cache: false
           check-latest: true
+
+      - name: Detect Go Modules Needing Cache
+        id: gosum-cache-check
+        shell: bash
+        run: |
+          declare -A modules=(
+            ["firewall/reverseProxy"]="reverseProxy"
+            ["firewall/waf"]="waf"
+            ["testing-env/server"]="server"
+            ["testing-env/application"]="application"
+            ["testing-env/simulator"]="simulator"
+          )
+          
+          echo "Checking for Go modules..."
+          for path in "${!modules[@]}"; do
+            name="${modules[$path]}"
+            
+            if [ -f "$path/go.sum" ]; then
+              echo "$name=true" >> $GITHUB_OUTPUT
+              echo -e "::notice:: \e[32mCache needed for module $name for $path/go.mod\e[0m"
+            else
+              echo "$name=false" >> $GITHUB_OUTPUT
+              echo -e "::warning:: \e[35mIgnoring module $name for non-existing $path/go.mod\e[0m"
+            fi
+          done
