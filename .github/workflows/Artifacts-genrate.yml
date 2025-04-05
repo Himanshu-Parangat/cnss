@@ -42,3 +42,63 @@ jobs:
               echo -e "::warning:: \e[35mIgnoring module $name for non-existing $path/go.mod\e[0m"
             fi
           done
+
+
+      - name: Cache Go modules - Reverse Proxy
+        if: steps.gosum-cache-check.outputs.reverseProxy == 'true'
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cache/go-build
+            ~/go/pkg/mod
+          key: ${{ runner.os }}-go-${{ hashFiles('**/firewall/reverseProxy/go.sum') }}
+          restore-keys: |
+            ${{ runner.os }}-go-
+
+
+      - name: Cache Go modules - WAF
+        if: steps.gosum-cache-check.outputs.waf == 'true'
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cache/go-build
+            ~/go/pkg/mod
+          key: ${{ runner.os }}-go-${{ hashFiles('**/firewall/waf/go.sum') }}
+          restore-keys: |
+            ${{ runner.os }}-go-
+
+
+      - name: Cache Go modules - Server
+        if: steps.gosum-cache-check.outputs.server == 'true'
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cache/go-build
+            ~/go/pkg/mod
+          key: ${{ runner.os }}-go-${{ hashFiles('**/testing-env/server/go.sum') }}
+          restore-keys: |
+            ${{ runner.os }}-go-
+
+
+      - name: Cache Go modules - Application
+        if: steps.gosum-cache-check.outputs.application == 'true'
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cache/go-build
+            ~/go/pkg/mod
+          key: ${{ runner.os }}-go-${{ hashFiles('**/testing-env/application/go.sum') }}
+          restore-keys: |
+            ${{ runner.os }}-go-
+
+
+      - name: Cache Go modules - Simulator
+        if: steps.gosum-cache-check.outputs.simulator == 'true'
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cache/go-build
+            ~/go/pkg/mod
+          key: ${{ runner.os }}-go-${{ hashFiles('**/testing-env/simulator/go.sum') }}
+          restore-keys: |
+            ${{ runner.os }}-go-
